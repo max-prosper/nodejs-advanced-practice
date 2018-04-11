@@ -31,8 +31,9 @@ test.only("when signed in, shows logout button", async () => {
       user: id
     }
   };
-  const sessionString = Buffer.from(
-    JSON.stringify(sessionObject)).toString("base64");
+  const sessionString = Buffer.from(JSON.stringify(sessionObject)).toString(
+    "base64"
+  );
 
   const Keygrip = require("keygrip");
   const keys = require("../config/keys");
@@ -42,4 +43,9 @@ test.only("when signed in, shows logout button", async () => {
   await page.setCookie({ name: "session", value: sessionString });
   await page.setCookie({ name: "session.sig", value: sig });
   await page.goto("localhost:3000");
+  await page.waitFor('a[href="/auth/logout"]');
+
+  const text = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+
+  expect(text).toEqual("Logout");
 });
