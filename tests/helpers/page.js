@@ -2,13 +2,15 @@ const puppeteer = require("puppeteer");
 const sessionFactory = require("../factories/sessionFactory");
 const userFactory = require("../factories/userFactory");
 
+const fetch = global.fetch;
+
 class CustomPage {
   static async build() {
     const browser = await puppeteer.launch({
       headless: false,
       args: ["--no-sandbox"]
     });
-    
+
     const page = await browser.newPage();
     const customPage = new CustomPage(page);
 
